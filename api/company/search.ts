@@ -1,5 +1,5 @@
-import { searchCorps } from '../_lib/dart';
-import { getQueryParam, handleOptions, handleApiError, sendError, sendJson } from '../_lib/handler';
+import { searchCorps } from '../_lib/dart.js';
+import { getQueryParam, handleOptions, handleApiError, sendError, sendJson } from '../_lib/handler.js';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

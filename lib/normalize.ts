@@ -1,4 +1,4 @@
-import type { FinancialStatement } from './types';
+import type { FinancialStatement } from './types/index.js';
 
 const ACCOUNT_ALIASES: Record<keyof Omit<FinancialStatement, 'year'>, string[]> = {
   revenue: ['매출액', '수익(매출액)', '영업수익', '매출', 'Revenue'],

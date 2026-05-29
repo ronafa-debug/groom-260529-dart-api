@@ -1,8 +1,8 @@
-import { getFinancialStatements, getCompanyInfo } from './_lib/dart';
-import { getMarketCap } from './_lib/market';
-import { getQueryParam, handleOptions, handleApiError, sendError, sendJson } from './_lib/handler';
-import { normalizeFinancialData, mergeYearlyStatements } from '../lib/normalize';
-import { calculateMetrics } from '../lib/metrics';
+import { getFinancialStatements, getCompanyInfo } from './_lib/dart.js';
+import { getMarketCap } from './_lib/market.js';
+import { getQueryParam, handleOptions, handleApiError, sendError, sendJson } from './_lib/handler.js';
+import { normalizeFinancialData, mergeYearlyStatements } from '../lib/normalize.js';
+import { calculateMetrics } from '../lib/metrics.js';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

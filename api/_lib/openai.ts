@@ -1,13 +1,13 @@
 import OpenAI from 'openai';
-import { cacheGetOrSet } from './cache';
+import { cacheGetOrSet } from './cache.js';
 import {
   buildAnalyzePrompt,
   buildComparePrompt,
   buildDisclosureSummaryPrompt,
   DISCLAIMER,
   sanitizeAiText,
-} from './prompts';
-import type { AnalyzeReport, FinanceResponse } from '../../lib/types';
+} from './prompts.js';
+import type { AnalyzeReport, FinanceResponse } from '../../lib/types/index.js';
 
 function getOpenAI(): OpenAI {
   const key = process.env.OPENAI_API_KEY?.trim();

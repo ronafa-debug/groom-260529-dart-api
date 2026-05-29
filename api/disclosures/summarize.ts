@@ -1,6 +1,6 @@
-import { getDisclosureDocument } from '../_lib/dart';
-import { generateDisclosureSummary } from '../_lib/openai';
-import { handleOptions, handleApiError, sendError, sendJson } from '../_lib/handler';
+import { getDisclosureDocument } from '../_lib/dart.js';
+import { generateDisclosureSummary } from '../_lib/openai.js';
+import { handleOptions, handleApiError, sendError, sendJson } from '../_lib/handler.js';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

@@ -1,4 +1,4 @@
-import type { FinancialStatement, ValueMetrics } from './types';
+import type { FinancialStatement, ValueMetrics } from './types/index.js';
 
 function safeDivide(numerator: number | null, denominator: number | null): number | null {
   if (numerator === null || denominator === null || denominator === 0) return null;

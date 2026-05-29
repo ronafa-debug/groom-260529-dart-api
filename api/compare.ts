@@ -1,10 +1,10 @@
-import { getCompanyInfo, getFinancialStatements } from './_lib/dart';
-import { getMarketCap } from './_lib/market';
-import { generateCompareNarrative } from './_lib/openai';
-import { handleOptions, handleApiError, sendError, sendJson } from './_lib/handler';
-import { normalizeFinancialData, mergeYearlyStatements } from '../lib/normalize';
-import { calculateMetrics } from '../lib/metrics';
-import type { CompareRequest, CompareResponse } from '../lib/types';
+import { getCompanyInfo, getFinancialStatements } from './_lib/dart.js';
+import { getMarketCap } from './_lib/market.js';
+import { generateCompareNarrative } from './_lib/openai.js';
+import { handleOptions, handleApiError, sendError, sendJson } from './_lib/handler.js';
+import { normalizeFinancialData, mergeYearlyStatements } from '../lib/normalize.js';
+import { calculateMetrics } from '../lib/metrics.js';
+import type { CompareRequest, CompareResponse } from '../lib/types/index.js';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 async function fetchCompanyFinance(corpCode: string) {

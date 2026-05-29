@@ -1,4 +1,4 @@
-import type { FinanceResponse } from '../../lib/types';
+import type { FinanceResponse } from '../../lib/types/index.js';
 
 export function buildAnalyzePrompt(companyName: string, finance: FinanceResponse): string {
   return `당신은 월스트리트 투자 분석가입니다. 다음 기업의 재무 데이터를 분석해주세요.

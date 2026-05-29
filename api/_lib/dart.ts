@@ -1,5 +1,5 @@
-import type { CorpCode, CompanyInfo, Disclosure } from '../../lib/types';
-import { cacheGetOrSet } from './cache';
+import type { CorpCode, CompanyInfo, Disclosure } from '../../lib/types/index.js';
+import { cacheGetOrSet } from './cache.js';
 import { unzipSync } from 'fflate';
 
 const DART_BASE = 'https://opendart.fss.or.kr/api';
