@@ -1,10 +1,10 @@
 import { getCompanyInfo, getFinancialStatements } from './_lib/dart';
 import { getMarketCap } from './_lib/market';
 import { generateAnalyzeReport } from './_lib/openai';
-import { handleOptions, sendError, sendJson } from './_lib/handler';
-import { normalizeFinancialData, mergeYearlyStatements } from '../src/utils/normalize';
-import { calculateMetrics } from '../src/utils/metrics';
-import type { AnalyzeRequest } from '../src/types';
+import { handleOptions, handleApiError, sendError, sendJson } from './_lib/handler';
+import { normalizeFinancialData, mergeYearlyStatements } from '../lib/normalize';
+import { calculateMetrics } from '../lib/metrics';
+import type { AnalyzeRequest } from '../lib/types';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -47,6 +47,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     sendJson(res, report);
   } catch (err) {
-    sendError(res, 500, err instanceof Error ? err.message : 'Analysis failed');
+    handleApiError(res, err, 'Analysis failed');
   }
 }

@@ -29,3 +29,16 @@ export function getQueryParam(value: string | string[] | undefined): string | un
   if (Array.isArray(value)) return value[0];
   return value;
 }
+
+export function mapErrorStatus(message: string): number {
+  if (message.includes('DART_API_KEY')) return 503;
+  if (message.includes('OPENAI_API_KEY')) return 503;
+  if (message.includes('인증키')) return 503;
+  if (message.includes('DART error 010')) return 503;
+  return 500;
+}
+
+export function handleApiError(res: VercelResponse, err: unknown, fallback = 'Request failed'): void {
+  const message = err instanceof Error ? err.message : fallback;
+  sendError(res, mapErrorStatus(message), message);
+}

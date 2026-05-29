@@ -7,11 +7,11 @@ import {
   DISCLAIMER,
   sanitizeAiText,
 } from './prompts';
-import type { AnalyzeReport, FinanceResponse } from '../../src/types';
+import type { AnalyzeReport, FinanceResponse } from '../../lib/types';
 
 function getOpenAI(): OpenAI {
-  const key = process.env.OPENAI_API_KEY;
-  if (!key) throw new Error('OPENAI_API_KEY is not configured');
+  const key = process.env.OPENAI_API_KEY?.trim();
+  if (!key) throw new Error('OPENAI_API_KEY is not configured. Vercel 환경변수에 OpenAI API 키를 설정해주세요.');
   return new OpenAI({ apiKey: key });
 }
 

@@ -1,8 +1,8 @@
 import { getFinancialStatements, getCompanyInfo } from './_lib/dart';
 import { getMarketCap } from './_lib/market';
-import { getQueryParam, handleOptions, sendError, sendJson } from './_lib/handler';
-import { normalizeFinancialData, mergeYearlyStatements } from '../src/utils/normalize';
-import { calculateMetrics } from '../src/utils/metrics';
+import { getQueryParam, handleOptions, handleApiError, sendError, sendJson } from './_lib/handler';
+import { normalizeFinancialData, mergeYearlyStatements } from '../lib/normalize';
+import { calculateMetrics } from '../lib/metrics';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -36,6 +36,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       marketCap,
     });
   } catch (err) {
-    sendError(res, 500, err instanceof Error ? err.message : 'Failed to fetch finance data');
+    handleApiError(res, err, 'Failed to fetch finance data');
   }
 }

@@ -164,10 +164,12 @@ npm run build
 1. GitHub 저장소에 푸시
 2. [Vercel](https://vercel.com)에서 프로젝트 Import
 3. **Storage → KV** (또는 Upstash Redis) 스토어 생성 후 연결
-4. Environment Variables 설정:
-   - `DART_API_KEY`
-   - `OPENAI_API_KEY`
+4. Environment Variables 설정 (**Production 환경 필수**):
+   - `DART_API_KEY` — [DART Open API](https://opendart.fss.or.kr/) 인증키
+   - `OPENAI_API_KEY` — OpenAI API 키 (AI 기능 사용 시)
    - KV 변수는 Vercel 연동 시 자동 주입
+
+> ⚠️ `DART_API_KEY`가 Vercel에 설정되지 않으면 기업 검색 API가 503/500 오류를 반환합니다. 로컬 `.env`와 별도로 Vercel Dashboard → Settings → Environment Variables에 반드시 등록하세요.
 5. Deploy
 
 ---
@@ -210,6 +212,11 @@ npm run build
 
 ### 9. 로컬 프론트엔드 포트 설정
 - **변경**: 로컬 개발 포트를 **5152**로 고정 (`vite.config.ts` — `server.port: 5152`)
+
+### 10. Vercel 기업 검색 500 오류 (DART XML 에러 응답)
+- **문제**: Vercel에 `DART_API_KEY` 미설정/오설정 시 DART가 ZIP 대신 XML 에러 반환 → `fflate` unzip 실패 → 500
+- **해결**: ZIP magic bytes 검증 + DART XML 에러 파싱, 명확한 503 메시지 반환
+- **추가**: 공유 코드를 `lib/`로 분리하여 Vercel Serverless 번들 안정화, KV 대용량 `corp:list`는 메모리 캐시 사용
 
 ---
 

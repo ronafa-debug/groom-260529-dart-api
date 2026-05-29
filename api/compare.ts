@@ -1,10 +1,10 @@
 import { getCompanyInfo, getFinancialStatements } from './_lib/dart';
 import { getMarketCap } from './_lib/market';
 import { generateCompareNarrative } from './_lib/openai';
-import { handleOptions, sendError, sendJson } from './_lib/handler';
-import { normalizeFinancialData, mergeYearlyStatements } from '../src/utils/normalize';
-import { calculateMetrics } from '../src/utils/metrics';
-import type { CompareRequest, CompareResponse } from '../src/types';
+import { handleOptions, handleApiError, sendError, sendJson } from './_lib/handler';
+import { normalizeFinancialData, mergeYearlyStatements } from '../lib/normalize';
+import { calculateMetrics } from '../lib/metrics';
+import type { CompareRequest, CompareResponse } from '../lib/types';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 async function fetchCompanyFinance(corpCode: string) {
@@ -55,6 +55,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     sendJson(res, response);
   } catch (err) {
-    sendError(res, 500, err instanceof Error ? err.message : 'Compare failed');
+    handleApiError(res, err, 'Compare failed');
   }
 }

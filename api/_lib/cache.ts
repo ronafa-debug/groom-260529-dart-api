@@ -1,16 +1,31 @@
-import { kv } from '@vercel/kv';
-
 const memoryCache = new Map<string, { value: unknown; expiresAt: number }>();
 const inFlight = new Map<string, Promise<unknown>>();
 
-function hasKv(): boolean {
+const MEMORY_ONLY_KEYS = ['corp:list'];
+
+function hasKvEnv(): boolean {
   return Boolean(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
 }
 
+function shouldUseKv(key: string): boolean {
+  return hasKvEnv() && !MEMORY_ONLY_KEYS.includes(key);
+}
+
+async function getKvClient() {
+  if (!hasKvEnv()) return null;
+  try {
+    const { kv } = await import('@vercel/kv');
+    return kv;
+  } catch {
+    return null;
+  }
+}
+
 export async function cacheGet<T>(key: string): Promise<T | null> {
-  if (hasKv()) {
+  if (shouldUseKv(key)) {
     try {
-      return (await kv.get<T>(key)) ?? null;
+      const kv = await getKvClient();
+      if (kv) return (await kv.get<T>(key)) ?? null;
     } catch {
       // fall through to memory
     }
@@ -26,10 +41,13 @@ export async function cacheGet<T>(key: string): Promise<T | null> {
 }
 
 export async function cacheSet<T>(key: string, value: T, ttlSeconds: number): Promise<void> {
-  if (hasKv()) {
+  if (shouldUseKv(key)) {
     try {
-      await kv.set(key, value, { ex: ttlSeconds });
-      return;
+      const kv = await getKvClient();
+      if (kv) {
+        await kv.set(key, value, { ex: ttlSeconds });
+        return;
+      }
     } catch {
       // fall through to memory
     }

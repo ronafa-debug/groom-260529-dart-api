@@ -1,5 +1,5 @@
 import { searchCorps } from '../_lib/dart';
-import { getQueryParam, handleOptions, sendError, sendJson } from '../_lib/handler';
+import { getQueryParam, handleOptions, handleApiError, sendError, sendJson } from '../_lib/handler';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -18,6 +18,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const results = await searchCorps(q, 10);
     sendJson(res, results);
   } catch (err) {
-    sendError(res, 500, err instanceof Error ? err.message : 'Search failed');
+    handleApiError(res, err, 'Search failed');
   }
 }
